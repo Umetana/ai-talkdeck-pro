@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Talk Deck Pro ver1.1.9b</title>
+    <title>AI Talk Deck Pro ver1.2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: 'sans-serif'; }
@@ -27,7 +27,7 @@
         input:checked + .slider:before { transform: translateX(14px); }
 
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .accordion-content.open { max-height: 1200px; }
+        .accordion-content.open { max-height: 1500px; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
@@ -39,7 +39,7 @@
         <!-- Header -->
         <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4 shrink-0">
             <div>
-                <h1 class="text-2xl font-bold text-sky-400 font-sans">AI Talk Deck <span class="text-sm font-normal text-slate-400">Pro v1.1.9b</span></h1>
+                <h1 class="text-2xl font-bold text-sky-400 font-sans">AI Talk Deck <span class="text-sm font-normal text-slate-400">Pro v1.2.1</span></h1>
                 <p class="text-[10px] text-slate-500 mt-1 italic leading-none font-mono">SAFETY_FIRST: EXCLUSION_READY</p>
             </div>
             <div id="statusIndicator" class="text-xs text-slate-500 text-right font-sans">
@@ -96,71 +96,92 @@
 
                 <!-- Advanced Settings -->
                 <div class="bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden transition-all">
-                    <button id="toggleAdvanced" class="w-full px-5 py-3 flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-widest hover:bg-slate-800 transition-colors font-sans">
-                        <span>詳細設定・API Key</span>
+                    <button id="toggleAdvanced" class="w-full px-5 py-3 flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-widest hover:bg-slate-800 transition-colors font-sans border-b border-slate-800">
+                        <span>詳細設定・接続</span>
                         <svg id="accordionIcon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     
                     <div id="advancedContent" class="accordion-content px-5 pb-5 space-y-4 font-sans">
-                        <div class="pt-2 border-t border-slate-800">
-                            <label class="block text-[11px] text-slate-400 mb-1">呼びかけ (リスナーの呼び方)</label>
-                            <input type="text" id="addressing" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] text-slate-400 mb-1">除外ワード (初期設定済)</label>
-                            <input type="text" id="exclude" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] text-slate-400 mb-1">雰囲気・トーン</label>
-                            <select id="tone" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
-                                <option value="フレンドリーで親しみやすい">フレンドリー</option>
-                                <option value="ユーモラスで面白い">ユーモラス</option>
-                                <option value="毒舌だけど愛がある">毒舌系</option>
-                                <option value="知的で論理的な分析">深掘り解説</option>
-                                <option value="情熱的でハイテンション">ハイテンション</option>
-                            </select>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
+                        <!-- Topic Settings -->
+                        <div class="pt-4 space-y-4">
                             <div>
-                                <label class="block text-[11px] text-slate-400 mb-1">生成枚数</label>
-                                <input type="number" id="count" min="1" max="5" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                                <label class="block text-[11px] text-slate-400 mb-1">呼びかけ (リスナーの呼び方)</label>
+                                <input type="text" id="addressing" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
                             </div>
                             <div>
-                                <label class="block text-[11px] text-slate-400 mb-1">創造性 (Temp)</label>
-                                <select id="temperature" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
-                                    <option value="0.0">厳格 (0.0)</option>
-                                    <option value="0.2">堅実 (0.2)</option>
-                                    <option value="0.4">正確 (0.4)</option>
-                                    <option value="0.6">バランス (0.6)</option>
-                                    <option value="0.8" selected>標準 (0.8)</option>
-                                    <option value="1.0">冒険 (1.0)</option>
+                                <label class="block text-[11px] text-slate-400 mb-1">除外ワード</label>
+                                <input type="text" id="exclude" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">雰囲気・トーン</label>
+                                <select id="tone" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:border-sky-500 focus:outline-none">
+                                    <option value="フレンドリーで親しみやすい">フレンドリー</option>
+                                    <option value="ユーモラスで面白い">ユーモラス</option>
+                                    <option value="毒舌だけど愛がある">毒舌系</option>
+                                    <option value="知的で論理的な分析">深掘り解説</option>
+                                    <option value="情熱的でハイテンション">ハイテンション</option>
                                 </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 pb-2">
+                                <div>
+                                    <label class="block text-[11px] text-slate-400 mb-1">生成枚数</label>
+                                    <input type="number" id="count" min="1" max="5" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] text-slate-400 mb-1">創造性 (Temp)</label>
+                                    <select id="temperature" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                                        <option value="0.0">厳格 (0.0)</option>
+                                        <option value="0.2">堅実 (0.2)</option>
+                                        <option value="0.4">正確 (0.4)</option>
+                                        <option value="0.6">バランス (0.6)</option>
+                                        <option value="0.8" selected>標準 (0.8)</option>
+                                        <option value="1.0">冒険 (1.0)</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- API Key -->
-                        <div class="pt-4 border-t border-slate-800">
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="text-[10px] text-sky-400 font-bold tracking-widest uppercase">API Key</label>
-                                <span id="keyStatus" class="text-[9px] px-1 py-0.5 rounded bg-slate-800 text-slate-500 font-mono">MISSING</span>
+                        <!-- Connectivity Settings Group -->
+                        <div class="pt-4 border-t border-slate-800 space-y-4">
+                            <!-- Mode Selector -->
+                            <div>
+                                <label class="block text-[10px] text-sky-400 font-bold tracking-widest uppercase mb-2">API 接続モード</label>
+                                <div class="grid grid-cols-2 gap-2 p-1 bg-slate-800 rounded-xl border border-slate-700">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="apiMode" value="browser" checked class="hidden peer">
+                                        <div class="text-[10px] text-center py-1.5 rounded-lg peer-checked:bg-sky-600 peer-checked:text-white text-slate-400 hover:bg-slate-700 transition-all">ブラウザ (手動Key)</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="apiMode" value="canvas" class="hidden peer">
+                                        <div class="text-[10px] text-center py-1.5 rounded-lg peer-checked:bg-purple-600 peer-checked:text-white text-slate-400 hover:bg-slate-700 transition-all">Canvas (自動Key)</div>
+                                    </label>
+                                </div>
                             </div>
-                            <input type="password" id="customApiKey" placeholder="Gemini API Key..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs focus:border-sky-500 focus:outline-none font-mono mb-2">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" id="saveKeyCheck" class="h-3 w-3 text-sky-500 rounded bg-slate-800 border-slate-700 focus:ring-0">
-                                <span class="text-[10px] text-slate-500">キーを保存する</span>
-                            </label>
+
+                            <!-- API Key Section -->
+                            <div id="apiKeySection" class="transition-all duration-300">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[10px] text-sky-400 font-bold tracking-widest uppercase">Gemini API Key</label>
+                                    <span id="keyStatus" class="text-[9px] px-1 py-0.5 rounded bg-slate-800 text-slate-500 font-mono">MISSING</span>
+                                </div>
+                                <input type="password" id="customApiKey" placeholder="AI Studioで取得したキー..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs focus:border-sky-500 focus:outline-none font-mono mb-2">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" id="saveKeyCheck" class="h-3 w-3 text-sky-500 rounded bg-slate-800 border-slate-700 focus:ring-0">
+                                    <span class="text-[10px] text-slate-500">キーをローカルに保存</span>
+                                </label>
+                            </div>
                         </div>
 
                         <!-- Control Buttons -->
                         <div class="pt-4 space-y-2 border-t border-slate-800">
                             <button id="clearHistoryBtn" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-lg border border-slate-700 transition-colors">既出履歴をクリア</button>
-                            <button id="resetAllBtn" class="w-full py-2 bg-slate-800 hover:bg-red-900/30 text-red-500 text-[10px] font-bold rounded-lg border border-red-900/20 transition-colors">設定を初期状態にリセット</button>
+                            <button id="resetAllBtn" class="w-full py-2 bg-slate-800 hover:bg-red-900/30 text-red-500 text-[10px] font-bold rounded-lg border border-red-900/20 transition-colors">全ての設定を初期化</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="text-[10px] text-slate-600 px-2 font-sans italic">
-                    Tips: 設定は自動保存されます。<br>除外ワードは初期で安全に設定済です。
+                    Tips: K キーで生成、Ctrl+Kで設定表示。<br>Canvasモードならキー入力不要です。
                 </div>
             </div>
 
@@ -185,16 +206,18 @@
     <div id="confirmModal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50 p-4 backdrop-blur-sm">
         <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl max-w-sm w-full text-center shadow-2xl font-sans">
             <h3 class="text-white font-bold text-lg mb-2">設定リセット</h3>
-            <p class="text-slate-400 text-sm mb-6">すべての設定を初期状態（安全設定含む）に戻しますか？（APIキーは維持されます）</p>
+            <p class="text-slate-400 text-sm mb-6">すべての設定（プリセット・トーン等）を初期化します。APIキーは保持されます。</p>
             <div class="flex space-x-3">
-                <button id="confirmResetBtn" class="flex-1 bg-red-600 hover:bg-red-500 text-white py-2 rounded-xl text-xs font-bold">リセット実行</button>
-                <button id="cancelResetBtn" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-xl text-xs font-bold font-sans">キャンセル</button>
+                <button id="confirmResetBtn" class="flex-1 bg-red-600 hover:bg-red-500 text-white py-2 rounded-xl text-xs font-bold font-sans">実行</button>
+                <button id="cancelResetBtn" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-xl text-xs font-bold font-sans">中止</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Default Configuration
+        // Global variables provided by environment
+        const apiKeyEnv = ""; // Provided by Canvas at runtime
+
         const defaults = {
             genre_0: "最新AI, VTuber, ガジェット",
             genre_1: "ニュース, 経済, 技術",
@@ -204,7 +227,8 @@
             tone: "フレンドリーで親しみやすい",
             count: "3",
             temperature: "0.8",
-            narrowDownMode: false
+            narrowDownMode: false,
+            apiMode: "browser"
         };
 
         const configFields = ['addressing', 'exclude', 'tone', 'count', 'temperature', 'narrowDownMode'];
@@ -225,12 +249,25 @@
         const advancedContent = document.getElementById('advancedContent');
         const accordionIcon = document.getElementById('accordionIcon');
         const confirmModal = document.getElementById('confirmModal');
+        const apiKeySection = document.getElementById('apiKeySection');
 
         window.onload = () => {
             loadSettings();
         };
 
         function loadSettings() {
+            // API Mode
+            const savedMode = localStorage.getItem('api_mode') || defaults.apiMode;
+            const modeRadios = document.querySelectorAll('input[name="apiMode"]');
+            modeRadios.forEach(r => {
+                if (r.value === savedMode) r.checked = true;
+                r.onchange = () => {
+                    localStorage.setItem('api_mode', r.value);
+                    updateModeUI(r.value);
+                };
+            });
+            updateModeUI(savedMode);
+
             // API Key
             const savedKey = localStorage.getItem('gemini_api_key');
             if (savedKey) {
@@ -239,7 +276,7 @@
                 updateStatusUI(true);
             }
 
-            // Presets
+            // Presets & Advanced Configs
             for(let i=0; i<3; i++) {
                 const el = document.getElementById(`genre_${i}`);
                 const saved = localStorage.getItem(`preset_genre_${i}`);
@@ -247,11 +284,9 @@
                 el.oninput = () => localStorage.setItem(`preset_genre_${i}`, el.value);
             }
 
-            // Advanced Configs
             configFields.forEach(fieldId => {
                 const element = document.getElementById(fieldId);
                 const savedVal = localStorage.getItem(`config_${fieldId}`);
-                
                 if (savedVal !== null) {
                     if (element.type === 'checkbox') element.checked = (savedVal === 'true');
                     else element.value = savedVal;
@@ -259,32 +294,23 @@
                     if (element.type === 'checkbox') element.checked = defaults[fieldId];
                     else element.value = defaults[fieldId];
                 }
-
-                if (!element.dataset.hasListener) {
-                    element.onchange = () => {
-                        const val = element.type === 'checkbox' ? element.checked : element.value;
-                        localStorage.setItem(`config_${fieldId}`, val);
-                    };
-                    element.dataset.hasListener = "true";
-                }
+                element.onchange = () => {
+                    localStorage.setItem(`config_${fieldId}`, element.type === 'checkbox' ? element.checked : element.value);
+                };
             });
         }
 
-        // Action Handlers
-        resetAllBtn.onclick = () => confirmModal.classList.remove('hidden');
-        document.getElementById('cancelResetBtn').onclick = () => confirmModal.classList.add('hidden');
-        document.getElementById('confirmResetBtn').onclick = () => {
-            for(let i=0; i<3; i++) localStorage.removeItem(`preset_genre_${i}`);
-            configFields.forEach(id => localStorage.removeItem(`config_${id}`));
-            loadSettings();
-            confirmModal.classList.add('hidden');
-            setStatus('設定をリセットしました', 'bg-blue-500');
-        };
-
-        toggleAdvanced.onclick = () => {
-            const isOpen = advancedContent.classList.toggle('open');
-            accordionIcon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-        };
+        function updateModeUI(mode) {
+            if (mode === 'canvas') {
+                apiKeySection.style.opacity = "0.3";
+                apiKeySection.style.pointerEvents = "none";
+                setStatus('Canvasモード: 自動Key使用中');
+            } else {
+                apiKeySection.style.opacity = "1";
+                apiKeySection.style.pointerEvents = "auto";
+                syncKeyState();
+            }
+        }
 
         function updateStatusUI(isValid) {
             if (isValid) {
@@ -297,6 +323,8 @@
         }
 
         function syncKeyState() {
+            const mode = document.querySelector('input[name="apiMode"]:checked').value;
+            if (mode === 'canvas') return;
             const key = customApiKeyInput.value.trim();
             const isValid = key.length > 10;
             updateStatusUI(isValid);
@@ -307,10 +335,19 @@
         customApiKeyInput.addEventListener('input', syncKeyState);
         saveKeyCheck.addEventListener('change', syncKeyState);
 
-        clearHistoryBtn.onclick = () => {
-            sessionTopicHistory = [];
-            historyCountDisplay.innerText = "既出: 0";
-            setStatus('履歴をクリアしました');
+        resetAllBtn.onclick = () => confirmModal.classList.remove('hidden');
+        document.getElementById('cancelResetBtn').onclick = () => confirmModal.classList.add('hidden');
+        document.getElementById('confirmResetBtn').onclick = () => {
+            for(let i=0; i<3; i++) localStorage.removeItem(`preset_genre_${i}`);
+            configFields.forEach(id => localStorage.removeItem(`config_${id}`));
+            loadSettings();
+            confirmModal.classList.add('hidden');
+            setStatus('初期化完了', 'bg-blue-500');
+        };
+
+        toggleAdvanced.onclick = () => {
+            const isOpen = advancedContent.classList.toggle('open');
+            accordionIcon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
         };
 
         function setStatus(text, colorClass = 'bg-green-500') {
@@ -327,8 +364,15 @@
         }
 
         async function callGeminiAPI(prompt, temp) {
-            const finalApiKey = customApiKeyInput.value.trim();
-            if (!finalApiKey) throw new Error("APIキーを「詳細設定」から設定してください。");
+            const mode = document.querySelector('input[name="apiMode"]:checked').value;
+            let finalApiKey = "";
+
+            if (mode === 'browser') {
+                finalApiKey = customApiKeyInput.value.trim();
+                if (!finalApiKey) throw new Error("ブラウザモードではAPIキーの設定が必要です。");
+            } else {
+                finalApiKey = apiKeyEnv; // Provided by environment at runtime
+            }
 
             const model = "gemini-2.5-flash-preview-09-2025";
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${finalApiKey}`;
@@ -336,7 +380,7 @@
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { 
-                    parts: [{ text: "配信リサーチ助手です。Google検索を活用し、指定されたJSONフォーマットのみを返してください。トピックは旬なものに限定してください。フォーマット:\n{ \"topics\": [ { \"title\": \"\", \"question\": \"\", \"insight\": \"\", \"call_to_action\": \"\", \"tag\": \"\", \"duration\": \"\" } ] }" }] 
+                    parts: [{ text: "配信リサーチ助手です。Google検索を活用し、旬な話題を指定のJSON形式のみで返してください。フォーマット:\n{ \"topics\": [ { \"title\": \"\", \"question\": \"\", \"insight\": \"\", \"call_to_action\": \"\", \"tag\": \"\", \"duration\": \"\" } ] }" }] 
                 },
                 tools: [{ "google_search": {} }],
                 generationConfig: { temperature: parseFloat(temp) }
@@ -350,7 +394,7 @@
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.error?.message || `API Error ${response.status}`);
+                throw new Error(error.error?.message || `API Status ${response.status}`);
             }
             
             const result = await response.json();
@@ -376,7 +420,7 @@
             if (genres.length === 0) return showError("ジャンルを入力してください。");
 
             generateBtn.disabled = true;
-            setStatus('リサーチ中...', 'bg-yellow-500');
+            setStatus('リサーチ実行中...', 'bg-yellow-500');
             
             deckContainer.innerHTML = Array(Number(count)).fill(0).map(() => `
                 <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/50 animate-pulse font-sans">
@@ -386,18 +430,18 @@
                 </div>
             `).join('');
 
-            const historyPrompt = sessionTopicHistory.length > 0 ? `【既出トピック避ける】\n- ${sessionTopicHistory.join('\n- ')}` : "";
-            let modeInstruction = isNarrowDown 
-                ? `全テーマ「${genres.join(', ')}」が重なり合う高度な話題を${count}つ。`
+            const historyPrompt = sessionTopicHistory.length > 0 ? `【既出避】\n- ${sessionTopicHistory.join('\n- ')}` : "";
+            const modeInstruction = isNarrowDown 
+                ? `全テーマ「${genres.join(', ')}」が重なる話題を${count}つ。`
                 : `各テーマ「${genres.join(', ')}」から独立した最新話題を計${count}つ。`;
 
             const prompt = `
                 テーマ: 「${genres.join(', ')}」
                 ${modeInstruction}
                 ${historyPrompt}
-                ${exclude ? `【絶対に除外するキーワード】: ${exclude}` : ""}
-                リスナー（${addressing}）に向けて、${tone}で語る。
-                JSON形式のみ出力。
+                ${exclude ? `【除外】: ${exclude}` : ""}
+                ${addressing}に向け、${tone}で語る。
+                JSON形式のみ。
             `;
 
             try {
@@ -426,15 +470,12 @@
                         <h3 class="font-bold text-xl text-white leading-tight">${topic.title}</h3>
                         <span class="label-tag shrink-0 ml-4">${topic.tag}</span>
                     </div>
-                    <p class="text-sky-400 font-medium italic text-lg leading-snug">「${topic.question}」</p>
-                    <div class="bg-slate-900/60 p-4 rounded-xl text-sm text-slate-300 border-l-4 border-sky-600 shadow-inner leading-relaxed">
+                    <p class="text-sky-400 font-medium italic text-lg">「${topic.question}」</p>
+                    <div class="bg-slate-900/60 p-4 rounded-xl text-sm text-slate-300 border-l-4 border-sky-600 shadow-inner">
                         ${topic.insight}
                     </div>
                     <div class="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-700/50">
-                        <span class="flex items-center">
-                            <svg class="w-3 h-3 mr-1 text-sky-500" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zm-4 0H9v2h2V9z"></path></svg>
-                            ${topic.call_to_action}
-                        </span>
+                        <span>${topic.call_to_action}</span>
                         <span class="font-mono bg-slate-900 px-2 py-0.5 rounded text-[10px] opacity-60">${topic.duration}</span>
                     </div>
                 `;
@@ -443,14 +484,14 @@
 
             if (sources && sources.length > 0) {
                 const sourceLinks = sources.filter(s => s.web).map(s => `
-                    <a href="${s.web.uri}" target="_blank" class="text-[10px] text-sky-500 hover:text-sky-300 bg-sky-950/20 px-3 py-1.5 rounded-lg border border-sky-900/40 truncate max-w-[220px] transition-all font-sans">
-                        ${s.web.title || 'Source'}
+                    <a href="${s.web.uri}" target="_blank" class="text-[10px] text-sky-500 hover:text-sky-300 bg-sky-950/20 px-3 py-1.5 rounded-lg border border-sky-900/40 truncate max-w-[220px]">
+                        ${s.web.title || 'Reference'}
                     </a>
                 `).join('');
                 if (sourceLinks) {
                     const sc = document.createElement('div');
                     sc.className = 'mt-8 p-5 bg-slate-900/40 rounded-2xl border border-slate-800/50';
-                    sc.innerHTML = `<h4 class="text-[10px] font-bold text-slate-500 mb-3 uppercase tracking-widest font-sans flex items-center"><svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="3"></path></svg>Search References</h4><div class="flex flex-wrap gap-2">${sourceLinks}</div>`;
+                    sc.innerHTML = `<h4 class="text-[10px] font-bold text-slate-500 mb-3 uppercase tracking-widest font-sans">Grounding Sources</h4><div class="flex flex-wrap gap-2">${sourceLinks}</div>`;
                     deckContainer.appendChild(sc);
                 }
             }
@@ -462,9 +503,18 @@
                 e.preventDefault();
                 handleGenerate();
             }
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                toggleAdvanced.click();
+            }
         });
 
         generateBtn.onclick = handleGenerate;
+        clearHistoryBtn.onclick = () => {
+            sessionTopicHistory = [];
+            historyCountDisplay.innerText = "既出: 0";
+            setStatus('履歴クリア完了');
+        };
     </script>
 </body>
 </html>
